@@ -49,11 +49,13 @@ jobs:
           set -eux
           unset ANDROID_SDK_ROOT
           cd buildscripts
+          # Release builds must not reuse a prefix built from other dependency pins.
+          rm -rf prefix
           ./download.sh > /dev/null
-          ./buildall.sh --arch x86 mpv
-          ./buildall.sh --arch x86_64 mpv
-          ./buildall.sh --arch arm64 mpv
-          ./buildall.sh
+          ./buildall.sh --clean --arch x86 mpv
+          ./buildall.sh --clean --arch x86_64 mpv
+          ./buildall.sh --clean --arch arm64 mpv
+          ./buildall.sh --clean
         env:
           IN_CI: 1
           GRADLE_OPTS: -Xmx4G

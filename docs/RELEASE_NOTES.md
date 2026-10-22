@@ -8,7 +8,7 @@ code and UI in the consuming app are unchanged.
 | Component | Version |
 |---|---|
 | mpv | `v0.41.0` |
-| FFmpeg | `n7.1.4` |
+| FFmpeg | `n7.1` |
 | libplacebo | `v7.351.0` |
 | libass | `0.17.4` |
 | dav1d | `1.5.4` |
@@ -18,7 +18,7 @@ code and UI in the consuming app are unchanged.
 ## Compatibility
 
 - The AAR does **not** bundle FFmpeg. It requires the app's `ffmpeg-kit:1.18`
-  (FFmpeg 7.1.4, `Lavc61.19.100`) to provide `libav*.so`/`libsw*.so`.
+  (FFmpeg 7.1, `n7.1`, `Lavc61.19.100`) to provide `libav*.so`/`libsw*.so`.
 - FFmpeg 8 is not used and is not compatible without rebuilding `ffmpeg-kit`.
 - Supported ABIs: `armeabi-v7a`, `arm64-v8a`, `x86`, `x86_64`.
 - 16 KB page size compatible (`-Wl,-z,max-page-size=16384`, flexible page sizes).

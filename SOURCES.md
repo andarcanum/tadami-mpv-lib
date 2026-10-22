@@ -18,7 +18,7 @@ repository at the release tag plus this file and the build patches.
 | Component | Version | Source |
 |---|---|---|
 | mpv | `v0.41.0` / `41f6a645068483470267271e1d09966ca3b9f413` | <https://github.com/mpv-player/mpv/archive/41f6a645068483470267271e1d09966ca3b9f413.tar.gz> |
-| FFmpeg | `n7.1.4` / `9abe92e3af7fa7becc8f7f742b1457b4c28220a6` | <https://github.com/FFmpeg/FFmpeg/archive/9abe92e3af7fa7becc8f7f742b1457b4c28220a6.tar.gz> |
+| FFmpeg | `n7.1` / `b08d7969c550a804a59511c7b83f2dd8cc0499b8` | <https://github.com/FFmpeg/FFmpeg/archive/b08d7969c550a804a59511c7b83f2dd8cc0499b8.tar.gz> |
 | libplacebo | `v7.351.0` / `3188549fba13bbdf3a5a98de2a38c2e71f04e21e` | <https://github.com/haasn/libplacebo/archive/3188549fba13bbdf3a5a98de2a38c2e71f04e21e.tar.gz> |
 | libass | `0.17.4` / `bbb3c7f1570a4a021e52683f3fbdf74fe492ae84` | <https://github.com/libass/libass/releases/download/0.17.4/libass-0.17.4.tar.xz> |
 | dav1d | `1.5.4` / `54706fc6bc0cdecab7e9593974a4039cc038fca7` | <https://github.com/videolan/dav1d/archive/54706fc6bc0cdecab7e9593974a4039cc038fca7.tar.gz> |
@@ -57,8 +57,8 @@ build-time helper, not linked into the AAR).
 ## FFmpeg at runtime
 
 The AAR does **not** ship FFmpeg. `libmpv.so` is dynamically linked against the
-`libav*.so`/`libsw*.so` provided by the consuming app's `ffmpeg-kit:1.18` (FFmpeg 7.1.4,
-`Lavc61.19.100`). The source for those binaries is distributed by the app's
+`libav*.so`/`libsw*.so` provided by the consuming app's `ffmpeg-kit:1.18` (FFmpeg 7.1,
+`n7.1`, `Lavc61.19.100`). The source for those binaries is distributed by the app's
 `ffmpeg-kit` project, not by this AAR; see that project's source and license notices.
 
 ## Release source tarball

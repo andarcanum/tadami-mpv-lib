@@ -8,14 +8,14 @@ are introduced by this fork.
 > **FFmpeg is not bundled.** `libmpv.so` dynamically links against `libavcodec.so`,
 > `libavdevice.so`, `libavfilter.so`, `libavformat.so`, `libavutil.so`, `libswresample.so`
 > and `libswscale.so`, which are supplied by the consuming app's `ffmpeg-kit`. This
-> release is built against **FFmpeg 7.1.4** and requires the app's `ffmpeg-kit:1.18`
-> (`Lavc61.19.100`). It will not load with an app that ships a different FFmpeg ABI.
+> release is built against **FFmpeg 7.1** (`n7.1`, `Lavc61.19.100`) and requires the app's
+> `ffmpeg-kit:1.18`. It will not load with an app that ships a different FFmpeg ABI.
 
 ## Versions
 
 | AAR | mpv | FFmpeg | libplacebo | libass | dav1d | mbedtls | NDK |
 |---|---|---|---|---|---|---|---|
-| `1.19.t` | `v0.41.0` | `n7.1.4` | `v7.351.0` | `0.17.4` | `1.5.4` | `3.6.7` | `r27c` |
+| `1.19.t` | `v0.41.0` | `n7.1` | `v7.351.0` | `0.17.4` | `1.5.4` | `3.6.7` | `r27c` |
 
 The AAR contains `libmpv.so`, `libplayer.so`, `libpostproc.so` and `libxml2.so` for
 `armeabi-v7a`, `arm64-v8a`, `x86` and `x86_64`. FFmpeg and `libc++_shared` are intentionally

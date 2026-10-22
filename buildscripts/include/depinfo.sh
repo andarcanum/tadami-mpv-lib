@@ -20,8 +20,9 @@ v_libxml2=2.13.5
 # mpv v0.41.0 (tag object 2c219aa8; commit below)
 v_mpv=41f6a645068483470267271e1d09966ca3b9f413
 
-# FFmpeg n7.1.4 — must match ffmpeg-kit 1.18 in the app (Lavc61.19.100)
-v_ffmpeg=n7.1.4
+# FFmpeg n7.1 — must match ffmpeg-kit 1.18 in the app (runtime av_version_info = n7.1,
+# Lavc61.19.100). n7.1.4 has Lavc61.19.101 and mpv's version check calls exit(1).
+v_ffmpeg=n7.1
 
 # newly pinned (were master)
 v_libplacebo=v7.351.0
@@ -50,7 +51,7 @@ dep_mpv_android=(mpv)
 ## for CI workflow
 
 # pinned ffmpeg revision
-v_ci_ffmpeg=n7.1.4
+v_ci_ffmpeg=n7.1
 
 # filename used to uniquely identify a build prefix
 ci_tarball="prefix-ndk-${v_ndk}-mpv-${v_mpv}-ffmpeg-${v_ci_ffmpeg}-lp-${v_libplacebo}-ass-${v_libass}-dav1d-${v_dav1d}-lua-${v_lua}-unibreak-${v_unibreak}-harfbuzz-${v_harfbuzz}-fribidi-${v_fribidi}-freetype-${v_freetype}-mbedtls-${v_mbedtls}-xml2-${v_libxml2}.tgz"

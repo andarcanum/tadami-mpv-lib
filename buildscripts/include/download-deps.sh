@@ -25,10 +25,15 @@ fi
 [ ! -d dav1d ] && git clone --branch "$v_dav1d" --depth 1 https://github.com/videolan/dav1d.git
 
 # ffmpeg
+# buildscripts/deps is cached in CI: re-clone when the pinned tag changes
+if [ -d ffmpeg ] && [ "$(cat ffmpeg/.tadami-ffmpeg-version 2>/dev/null)" != "$v_ffmpeg" ]; then
+	rm -rf ffmpeg
+fi
 if [ ! -d ffmpeg ]; then
   git clone https://github.com/FFmpeg/FFmpeg.git -b $v_ffmpeg ffmpeg --depth 1
   cd ffmpeg
   git apply ../../patches/ffmpeg_force_mpegts.patch
+  echo "$v_ffmpeg" > .tadami-ffmpeg-version
   cd ..
 fi
 

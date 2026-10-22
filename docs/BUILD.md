@@ -78,7 +78,7 @@ To rebuild a single component without its dependencies:
 
 ## Verify the native output
 
-`libmpv.so` must be loaded against the **FFmpeg 7.1.4** libraries shipped by the app's
+`libmpv.so` must be loaded against the **FFmpeg 7.1** (`n7.1`) libraries shipped by the app's
 `ffmpeg-kit:1.18` (`Lavc61.19.100`). The AAR does not contain FFmpeg.
 
 ```bash
@@ -89,7 +89,7 @@ readelf -d app/src/main/jniLibs/arm64-v8a/libmpv.so | grep -E 'NEEDED|SONAME'
 readelf -l app/src/main/jniLibs/arm64-v8a/libmpv.so | grep LOAD
 
 # Versions embedded in the binary
-strings app/src/main/jniLibs/arm64-v8a/libmpv.so | grep -E '0\.41\.0|7\.1\.4|7\.351\.0'
+strings app/src/main/jniLibs/arm64-v8a/libmpv.so | grep -E '0\.41\.0|n7\.1|7\.351\.0'
 ```
 
 `DT_NEEDED` must list the FFmpeg names **without** a version suffix (`libavcodec.so`, not
@@ -119,6 +119,17 @@ comm -23 /tmp/mpv_undef.txt /tmp/ff_defined.txt
 The `comm` output must be empty. A non-empty result means the app's FFmpeg build is missing
 a symbol used by this `libmpv.so`; do not tag a release.
 
+### FFmpeg version gate (hard requirement)
+
+mpv checks the FFmpeg library versions during `mpv_initialize()` and calls `exit(1)` if
+`libmpv.so` was built against a newer FFmpeg than the one loaded at runtime. This code path
+uses a null logger, so the process dies without an error line in logcat.
+
+Build against the same FFmpeg release as the app's `ffmpeg-kit:1.18` — `n7.1`
+(`Lavc61.19.100`). Do not bump to `n7.1.x`: patch releases bump `LIBAVCODEC_VERSION_MICRO`
+(e.g. `n7.1.4` is `Lavc61.19.101`, `libavfilter` 10.5.100, `libavformat` 61.7.102) and will
+abort at `MPVLib.init()` even though the ABI is otherwise compatible.
+
 ## Troubleshooting
 
 - **`sudo: a password is required`** — either install the packages manually, run in a
@@ -130,7 +141,7 @@ a symbol used by this `libmpv.so`; do not tag a release.
   `MAKEFLAGS=-j4`.
 - **Stale objects after changing a pin** — `rm -rf prefix` and rerun with `--clean`.
 - **`git apply` fails on `ffmpeg_force_mpegts.patch`** — the patch context changed; rebase
-  it against the pinned `n7.1.4` tree without changing its semantics.
+  it against the pinned `n7.1` tree without changing its semantics.
 
 ## CI
 
