@@ -22,7 +22,7 @@ if [ ! -d libxml2 ]; then
 fi
 
 # dav1d
-[ ! -d dav1d ] && git clone https://github.com/videolan/dav1d.git --depth 1
+[ ! -d dav1d ] && git clone --branch "$v_dav1d" --depth 1 https://github.com/videolan/dav1d.git
 
 # ffmpeg
 if [ ! -d ffmpeg ]; then
@@ -57,7 +57,11 @@ if [ ! -d unibreak ]; then
 fi
 
 # libass
-[ ! -d libass ] && git clone https://github.com/libass/libass.git --depth 1
+if [ ! -d libass ]; then
+	mkdir libass
+	$WGET https://github.com/libass/libass/releases/download/$v_libass/libass-$v_libass.tar.xz -O - | \
+		tar -xJ -C libass --strip-components=1
+fi
 
 # lua
 if [ ! -d lua ]; then
@@ -67,7 +71,7 @@ if [ ! -d lua ]; then
 fi
 
 # libplacebo
-[ ! -d libplacebo ] && git clone --recursive https://github.com/haasn/libplacebo.git --depth 1 --shallow-submodules
+[ ! -d libplacebo ] && git clone --branch "$v_libplacebo" --recursive --depth 1 --shallow-submodules https://github.com/haasn/libplacebo.git
 
 # mpv
 if [ ! -d mpv ]; then

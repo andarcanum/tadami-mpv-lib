@@ -1,41 +1,105 @@
-# THIS DOESN'T WORK WITHOUT ANIYOMI-FFMPEG-KIT
+# Tadami mpv library
 
-# mpv for Aniyomi
+Fork of [`aniyomiorg/aniyomi-mpv-lib`](https://github.com/aniyomiorg/aniyomi-mpv-lib),
+packaged as an Android library (AAR) for Tadami/Aniyomi. The public Java/Kotlin API is
+`is.xyz.mpv.*` and stays compatible with the upstream library: no player, UI or API changes
+are introduced by this fork.
 
-[![Build Status](https://github.com/mpv-android/mpv-android/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/mpv-android/mpv-android/actions/workflows/build.yml)
+> **FFmpeg is not bundled.** `libmpv.so` dynamically links against `libavcodec.so`,
+> `libavdevice.so`, `libavfilter.so`, `libavformat.so`, `libavutil.so`, `libswresample.so`
+> and `libswscale.so`, which are supplied by the consuming app's `ffmpeg-kit`. This
+> release is built against **FFmpeg 7.1.4** and requires the app's `ffmpeg-kit:1.18`
+> (`Lavc61.19.100`). It will not load with an app that ships a different FFmpeg ABI.
 
-mpv-android is a video player for Android based on [libmpv](https://github.com/mpv-player/mpv).
+## Versions
 
-## Features
+| AAR | mpv | FFmpeg | libplacebo | libass | dav1d | mbedtls | NDK |
+|---|---|---|---|---|---|---|---|
+| `1.19.t` | `v0.41.0` | `n7.1.4` | `v7.351.0` | `0.17.4` | `1.5.4` | `3.6.7` | `r27c` |
 
-* Hardware and software video decoding
-* Gesture-based seeking, volume/brightness control and more
-* libass support for styled subtitles
-* Secondary (or dual) subtitle support
-* High-quality rendering with advanced settings (scalers, debanding, interpolation, ...)
-* Play network streams with the "Open URL" function
-* Background playback, Picture-in-Picture, keyboard input supported
+The AAR contains `libmpv.so`, `libplayer.so`, `libpostproc.so` and `libxml2.so` for
+`armeabi-v7a`, `arm64-v8a`, `x86` and `x86_64`. FFmpeg and `libc++_shared` are intentionally
+excluded: the app provides them.
 
-### Library?
+## Using the library
 
-mpv-android is **not** a library/module (AAR) you can import into your app.
+The artifacts are published as GitHub Release assets. There is no JitPack and no AAR in git.
+Gradle resolves the module through a small Ivy repository:
 
-If you'd like to use libmpv in your app you can use our code as inspiration.
-The important parts are [`MPVLib`](app/src/main/java/is/xyz/mpv/MPVLib.java), [`BaseMPVView`](app/src/main/java/is/xyz/mpv/BaseMPVView.kt) and the [native code](app/src/main/jni/).
-Native code is built by [these scripts](buildscripts/).
+```kotlin
+// settings.gradle.kts
+dependencyResolutionManagement {
+    repositories {
+        // ... your existing repositories
+        ivy {
+            name = "TadamiMpvLib"
+            url = uri("https://github.com/andarcanum/tadami-mpv-lib/releases/download/")
+            patternLayout {
+                ivy("[revision]/ivy.xml")
+                artifact("[revision]/[artifact]-[revision].[ext]")
+            }
+            metadataSources {
+                ivyDescriptor()
+            }
+            content {
+                includeModule("com.github.andarcanum", "tadami-mpv-lib")
+            }
+        }
+    }
+}
+```
 
-## Downloads
+```toml
+# gradle/aniyomi.versions.toml
+[versions]
+aniyomi-mpv-lib = "1.19.t"
 
-You can download mpv-android from the [Releases section](https://github.com/mpv-android/mpv-android/releases) or
+[libraries]
+aniyomi-mpv = { module = "com.github.andarcanum:tadami-mpv-lib", version.ref = "aniyomi-mpv-lib" }
+```
 
-[<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="80">](https://play.google.com/store/apps/details?id=is.xyz.mpv)
+Each release contains:
 
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/packages/is.xyz.mpv)
+- `tadami-mpv-lib-<version>.aar`
+- `tadami-mpv-lib-<version>.aar.sha256`
+- `ivy.xml`
+- `tadami-mpv-lib-<version>-sources.tar.gz`
 
-**Note**: Android TV is supported, but only available on F-Droid or by installing the APK manually.
+The `ivy.xml` is required so Gradle knows the artifact is an AAR (not a JAR).
 
 ## Building from source
 
-Take a look at the [README](buildscripts/README.md) inside the `buildscripts` directory.
+See [`docs/BUILD.md`](docs/BUILD.md). The short version, on Linux (or WSL2 on an ext4
+filesystem):
 
-Some other documentation can be found at this [link](http://mpv-android.github.io/mpv-android/).
+```bash
+cd buildscripts
+./download.sh
+./buildall.sh --arch x86 mpv
+./buildall.sh --arch x86_64 mpv
+./buildall.sh --arch arm64 mpv
+./buildall.sh
+```
+
+The AAR is written to `app/build/outputs/aar/app-default-release.aar`.
+
+## Releasing
+
+See [`docs/RELEASE.md`](docs/RELEASE.md). Releases are built by
+`.github/workflows/build_release.yml` on a `1.19.*` tag, or manually via
+`workflow_dispatch` (artifact only, no release).
+
+## Licensing
+
+The native build uses FFmpeg with `--enable-gpl --enable-version3`, so the resulting
+`libmpv.so` is distributed under **GPLv3**. See [`docs/LICENSE-NOTICE.md`](docs/LICENSE-NOTICE.md)
+and [`SOURCES.md`](SOURCES.md) for component licenses, source locations and the exact
+upstream revisions. This is a fork; all upstream copyrights remain with their authors.
+
+## Credits
+
+Built on [mpv](https://github.com/mpv-player/mpv), [FFmpeg](https://github.com/FFmpeg/FFmpeg),
+[libplacebo](https://github.com/haasn/libplacebo), [libass](https://github.com/libass/libass),
+[dav1d](https://github.com/videolan/dav1d), [mbedtls](https://github.com/Mbed-TLS/mbedtls)
+and the upstream [`aniyomi-mpv-lib`](https://github.com/aniyomiorg/aniyomi-mpv-lib) /
+[`mpv-android`](https://github.com/mpv-android/mpv-android) projects.

@@ -14,10 +14,19 @@ v_unibreak=6.1
 v_harfbuzz=10.1.0
 v_fribidi=1.0.16
 v_freetype=2-13-3
-v_mbedtls=3.6.2
+v_mbedtls=3.6.7
 v_libxml2=2.13.5
-v_ffmpeg=n7.1
-v_mpv=d82701962f99051a18d65c215b70d41ebadd9a22
+
+# mpv v0.41.0 (tag object 2c219aa8; commit below)
+v_mpv=41f6a645068483470267271e1d09966ca3b9f413
+
+# FFmpeg n7.1.4 — must match ffmpeg-kit 1.18 in the app (Lavc61.19.100)
+v_ffmpeg=n7.1.4
+
+# newly pinned (were master)
+v_libplacebo=v7.351.0
+v_libass=0.17.4
+v_dav1d=1.5.4
 
 
 ## Dependency tree
@@ -41,7 +50,7 @@ dep_mpv_android=(mpv)
 ## for CI workflow
 
 # pinned ffmpeg revision
-v_ci_ffmpeg=n7.1
+v_ci_ffmpeg=n7.1.4
 
 # filename used to uniquely identify a build prefix
-ci_tarball="prefix-ndk-${v_ndk}-lua-${v_lua}-unibreak-${v_unibreak}-harfbuzz-${v_harfbuzz}-fribidi-${v_fribidi}-freetype-${v_freetype}-mbedtls-${v_mbedtls}-ffmpeg-${v_ci_ffmpeg}.tgz"
+ci_tarball="prefix-ndk-${v_ndk}-mpv-${v_mpv}-ffmpeg-${v_ci_ffmpeg}-lp-${v_libplacebo}-ass-${v_libass}-dav1d-${v_dav1d}-lua-${v_lua}-unibreak-${v_unibreak}-harfbuzz-${v_harfbuzz}-fribidi-${v_fribidi}-freetype-${v_freetype}-mbedtls-${v_mbedtls}-xml2-${v_libxml2}.tgz"
