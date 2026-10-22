@@ -19,9 +19,9 @@ repository at the release tag plus this file and the build patches.
 |---|---|---|
 | mpv | `v0.41.0` / `41f6a645068483470267271e1d09966ca3b9f413` | <https://github.com/mpv-player/mpv/archive/41f6a645068483470267271e1d09966ca3b9f413.tar.gz> |
 | FFmpeg | `n7.1.4` / `9abe92e3af7fa7becc8f7f742b1457b4c28220a6` | <https://github.com/FFmpeg/FFmpeg/archive/9abe92e3af7fa7becc8f7f742b1457b4c28220a6.tar.gz> |
-| libplacebo | `v7.351.0` / `98c1416e95b21cd767b84ac9ee430ccadf263ff6` | <https://github.com/haasn/libplacebo/archive/98c1416e95b21cd767b84ac9ee430ccadf263ff6.tar.gz> |
-| libass | `0.17.4` / `e81dec4065332a907792af50e68b4a749e476718` | <https://github.com/libass/libass/releases/download/0.17.4/libass-0.17.4.tar.xz> |
-| dav1d | `1.5.4` / `191bdda98ec3c68137754dc97da1db34043d7cd4` | <https://github.com/videolan/dav1d/archive/191bdda98ec3c68137754dc97da1db34043d7cd4.tar.gz> |
+| libplacebo | `v7.351.0` / `3188549fba13bbdf3a5a98de2a38c2e71f04e21e` | <https://github.com/haasn/libplacebo/archive/3188549fba13bbdf3a5a98de2a38c2e71f04e21e.tar.gz> |
+| libass | `0.17.4` / `bbb3c7f1570a4a021e52683f3fbdf74fe492ae84` | <https://github.com/libass/libass/releases/download/0.17.4/libass-0.17.4.tar.xz> |
+| dav1d | `1.5.4` / `54706fc6bc0cdecab7e9593974a4039cc038fca7` | <https://github.com/videolan/dav1d/archive/54706fc6bc0cdecab7e9593974a4039cc038fca7.tar.gz> |
 | mbedtls | `3.6.7` | <https://github.com/Mbed-TLS/mbedtls/releases/download/mbedtls-3.6.7/mbedtls-3.6.7.tar.bz2> |
 | freetype | `2-13-3` / tag `VER-2-13-3` | <https://gitlab.freedesktop.org/freetype/freetype/-/tree/VER-2-13-3> |
 | fribidi | `1.0.16` | <https://github.com/fribidi/fribidi/releases/download/v1.0.16/fribidi-1.0.16.tar.xz> |
@@ -34,7 +34,7 @@ repository at the release tag plus this file and the build patches.
 
 ```bash
 git clone --recursive https://github.com/haasn/libplacebo.git
-git -C libplacebo checkout 98c1416e95b21cd767b84ac9ee430ccadf263ff6
+git -C libplacebo checkout 3188549fba13bbdf3a5a98de2a38c2e71f04e21e
 git -C libplacebo submodule update --init --recursive
 
 git clone --recurse-submodules https://gitlab.freedesktop.org/freetype/freetype.git
