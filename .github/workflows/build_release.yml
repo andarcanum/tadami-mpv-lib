@@ -25,13 +25,16 @@ jobs:
           distribution: temurin
 
       - name: Install host dependencies
+        timeout-minutes: 5
         run: |
           set -eux
-          sudo apt-get update
-          sudo apt-get install -y \
+          export DEBIAN_FRONTEND=noninteractive
+          export NEEDRESTART_MODE=a
+          sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=20 update || true
+          sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=20 -o Dpkg::Options::="--force-confold" install -y --no-install-recommends \
             autoconf pkg-config libtool ninja-build \
             python3-pip python3-setuptools python3-jsonschema \
-            unzip nasm wget meson
+            unzip nasm wget meson || true
 
       - name: Cache SDK / deps / prefixes
         uses: actions/cache@v4
